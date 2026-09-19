@@ -1,0 +1,12 @@
+# Local environment and generated files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+__pycache__/
+.venv/
+node_modules/
+.netlify/
+.openai/
+*.zip
