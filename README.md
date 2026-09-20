@@ -1,110 +1,275 @@
-# Code Reader
+# Panduan Menjalankan Code Reader di Komputer
 
-Web pembaca PDF dan Word gratis, dibuat untuk dibuka dari browser desktop maupun ponsel.
+Code Reader adalah aplikasi web pembaca dokumen PDF dan Word (DOCX) dengan dukungan pembacaan teks multibahasa menggunakan teknologi Text-to-Speech.
 
-**Kode lengkap aplikasi berada di folder `dist/`.** Folder ini berisi source HTML, CSS, JavaScript, dan pustaka pendukung. Tidak ada proses kompilasi, API key, database, atau kebutuhan `npm install`.
+Panduan ini menjelaskan cara mengekstrak, menjalankan, dan menguji aplikasi Code Reader secara lokal di komputer sebelum digunakan.
 
-## Fitur yang tersedia
+## 1. Persiapan
 
-- Buka PDF teks dan DOCX (maksimal 20 MB; PDF maksimal 100 halaman).
-- Pratinjau PDF serta teks bacaan.
-- Rentang halaman fisik PDF yang inklusif, misalnya 3–5.
-- Word dibagi per paragraf/bagian, bukan halaman asli Word.
-- Perkiraan bahasa lokal: Indonesia, Inggris, Arab, Prancis, Jerman, Spanyol, Jepang; dapat dikoreksi manual.
-- Suara bawaan browser/perangkat; suara lokal dan daring diberi label.
-- Mulai, jeda, lanjutkan, berhenti, kalimat sebelumnya/berikutnya, kecepatan, volume, dan contoh suara.
-- Klik kalimat untuk mulai dari posisi itu dalam rentang pilihan.
-- Edit teks bacaan tanpa mengubah dokumen asli.
-- Sorotan kalimat aktif, auto-scroll, estimasi durasi, tema terang/gelap.
-- Contoh bacaan agar pengguna bisa mencoba sebelum membuka file.
+Sebelum menjalankan aplikasi, pastikan komputer memiliki:
 
-## Isi proyek
+- Windows 10 atau Windows 11.
+- Browser Google Chrome atau Microsoft Edge.
+- Visual Studio Code (VS Code).
+- Python 3 untuk menjalankan server lokal.
 
-| File | Fungsi |
-|---|---|
-| `dist/index.html` | Struktur halaman dan seluruh kontrol |
-| `dist/style.css` | Tampilan desktop/mobile dan tema |
-| `dist/app.mjs` | Unggah file, pratinjau, pengaturan, dan kontrol suara |
-| `dist/core.mjs` | Deteksi bahasa, segmentasi kalimat, rentang, ekstraksi baris PDF |
-| `dist/icon.svg` | Ikon web |
-| `dist/vendor/` | PDF.js, Mammoth, franc-min, worker PDF, dan lisensinya |
-| `netlify.toml` | Konfigurasi publish Netlify |
-| `.gitignore` | Pengecualian file lokal dari Git |
-| `PANDUAN_GITHUB_NETLIFY.md` | Langkah menjalankan, push GitHub, dan deploy Netlify |
+Python dapat diunduh melalui:
+https://www.python.org/downloads/
 
-Jangan mengabaikan `dist/` di Git: pada proyek ini folder tersebut adalah source aplikasi yang harus dipublikasikan.
+Pastikan Python berhasil terpasang dengan membuka terminal dan menjalankan:
 
-## Menjalankan lokal
+```bash
+python --version
+```
 
-Ekstrak ZIP, buka folder `code-reader` di VS Code, lalu buka terminal:
+Jika Python sudah terpasang, terminal akan menampilkan versi Python yang digunakan.
+
+Jika perintah tersebut tidak dikenali pada Windows, coba:
+
+```bash
+py --version
+```
+
+## 2. Ekstrak dan Buka Project
+
+1. Unduh file ZIP Code Reader.
+2. Klik kanan pada file ZIP.
+3. Pilih Extract All atau Ekstrak Semua.
+4. Buka folder hasil ekstraksi.
+5. Pastikan folder utama bernama `code-reader`.
+
+Struktur project secara umum:
+
+```text
+code-reader/
+│
+├── dist/
+│   ├── index.html
+│   ├── app.mjs
+│   └── vendor/
+│
+├── netlify.toml
+└── PANDUAN_TEST_LOKAL.md
+```
+
+Folder `dist` berisi aplikasi yang siap dijalankan melalui browser.
+
+Jangan menghapus atau memindahkan file di dalam folder tersebut karena dapat menyebabkan sebagian fitur aplikasi tidak berfungsi.
+
+## 3. Buka Project di VS Code
+
+1. Jalankan Visual Studio Code.
+2. Klik File.
+3. Pilih Open Folder.
+4. Cari folder `code-reader`.
+5. Klik Select Folder.
+
+Pastikan folder project sudah terbuka dan seluruh file terlihat pada panel Explorer di sebelah kiri.
+
+## 4. Jalankan Code Reader
+
+Setelah project terbuka, jalankan aplikasi menggunakan server lokal.
+
+### Langkah 1: Buka Terminal
+
+Pada VS Code, pilih:
+
+Terminal → New Terminal
+
+Pastikan terminal berada di direktori utama `code-reader`.
+
+### Langkah 2: Jalankan Server Lokal
+
+Masukkan perintah berikut:
 
 ```bash
 python -m http.server 8000 --directory dist
 ```
 
-Pada Windows, jika `python` tidak dikenali, gunakan:
+Jika Windows tidak mengenali perintah `python`, gunakan:
 
 ```bash
 py -m http.server 8000 --directory dist
 ```
 
-Buka http://localhost:8000. Hentikan server dengan Ctrl+C. Jangan membuka `index.html` dengan klik dua kali karena JavaScript module dan worker perlu dilayani melalui HTTP/HTTPS.
+Jika berhasil, terminal akan menampilkan informasi seperti:
 
-## Netlify — direkomendasikan
+```text
+Serving HTTP on :: port 8000
+```
 
-Push seluruh isi folder `code-reader` ke root repository GitHub, termasuk `dist` dan `netlify.toml`. Hubungkan repository ke Netlify.
+Artinya, server lokal sudah berjalan.
 
-| Pengaturan | Nilai |
-|---|---|
-| Framework | Tidak ada / Other jika diminta |
-| Base directory | Kosong |
-| Build command | Kosong |
-| Publish directory | `dist` |
-| Branch | `main` |
-| Environment variables | Tidak diperlukan |
+### Langkah 3: Buka Aplikasi
 
-Konfigurasi publish sudah ada di `netlify.toml`. Setelah deployment selesai, periksa pengaturan akses dan pilih publish/public agar dapat dibuka semua pembaca. Menu dapat berbeda antar akun.
+Buka Google Chrome atau Microsoft Edge.
 
-Alternatif tanpa Git: unggah folder `dist` ke fitur deploy manual Netlify. Untuk pembaruan rutin, koneksi GitHub lebih praktis.
+Masukkan alamat berikut:
 
-Netlify memiliki paket Free dengan batas penggunaan. Hosting gratis bukan trafik tanpa batas; lihat https://www.netlify.com/pricing/ untuk ketentuan akun terbaru. Pembacaan suara tidak memanggil API TTS berbayar milik aplikasi.
+http://localhost:8000
 
-## Streamlit
+Aplikasi Code Reader akan terbuka melalui browser.
 
-Paket ini bukan aplikasi Streamlit dan tidak berisi `app.py`/`requirements.txt`. Karena seluruh aplikasi berjalan di browser, Netlify bisa memublikasikannya langsung.
+Catatan:
 
-Streamlit Community Cloud menjalankan entrypoint Python. Untuk menggunakan Streamlit, perlu dibuat aplikasi pembungkus atau adaptasi komponen frontend, termasuk penyajian module/worker PDF dan pengujian suara dalam iframe. Mengganti ekstensi file menjadi `.py` atau menambahkan `requirements.txt` saja tidak cukup. Paket ini belum diuji atau diadaptasi untuk Streamlit.
+- Tidak perlu menginstal package tambahan melalui npm.
+- Tidak perlu membuat akun.
+- Tidak perlu menggunakan API key.
+- Server hanya berjalan di komputer lokal.
 
-## Batasan dan privasi
+## 5. Pengujian Fitur Code Reader
 
-- OCR untuk PDF scan belum tersedia. Halaman kosong/scan dalam rentang memblokir pembacaan agar tidak terlewat diam-diam; pilih rentang berisi teks.
-- Periksa tabel dan dokumen multi-kolom: urutan mengikuti item teks dalam PDF, belum ada rekonstruksi layout kompleks.
-- Untuk memilih halaman asli Word, ekspor Word menjadi PDF terlebih dahulu.
-- Deteksi bahasa merupakan perkiraan. Bahasa Indonesia dan Melayu dapat tertukar; bila nilainya dekat, aplikasi memprioritaskan Indonesia. Pengguna tetap dapat mengganti bahasa.
-- Suara tergantung browser, sistem operasi, dan bahasa yang terpasang. Jika kosong, pilih bahasa lain atau pasang suara bahasa yang sesuai pada perangkat.
-- Jeda/lanjutkan dan suara pada layar terkunci dapat berbeda antarperangkat. Suara di tiap perangkat tidak dijamin identik.
-- Teks Arab tanpa harakat tidak dijamin selalu dilafalkan benar; aplikasi bukan pembaca tajwid khusus.
-- Tidak ada ekspor MP3 atau riwayat dokumen permanen.
-- Dokumen dan teks diproses dalam memori browser, tidak dikirim ke server aplikasi. Refresh/tutup tab akan menghilangkan dokumen dari sesi.
-- Suara berlabel daring dapat mengirim teks ke layanan browser/OS. Pilih suara berlabel lokal jika tersedia untuk pemrosesan suara lokal.
-- Tema saja disimpan di localStorage. Antarmuka mengakses Google Fonts dengan fallback font jika tidak tersedia.
+Setelah aplikasi berhasil dibuka, lakukan beberapa pengujian berikut.
 
-## Validasi versi sumber
+### A. Pengujian Teks Contoh
 
-Ekstraksi PDF enam halaman, batas rentang 3–5, validasi rentang salah, ekstraksi DOCX, deteksi tiga bahasa utama, keterhubungan elemen UI, serta logika pemutaran dengan simulasi suara telah diperiksa. Uji audio aktual dan tampilan lintas browser tetap perlu dilakukan pada perangkat pengguna. Paket belum dideploy ke akun Netlify Anda.
+1. Klik tombol "Coba dengan teks contoh".
+2. Pastikan teks berhasil ditampilkan.
+3. Periksa bahasa yang terdeteksi.
+4. Pilih suara yang tersedia.
+5. Klik "Mulai membaca".
 
-## Pustaka pihak ketiga
+Pastikan aplikasi dapat membacakan teks menggunakan suara yang dipilih.
 
-- PDF.js / pdfjs-dist 4.10.38 — Apache-2.0.
-- Mammoth 1.9.1 — BSD-2-Clause.
-- franc-min 6.2.0 — MIT.
+### B. Pengujian Dokumen PDF
 
-Lisensi disertakan di `dist/vendor/`. Pertahankan pemberitahuan lisensi saat membagikan atau mengubah pustaka. File aplikasi dapat diedit langsung; file vendor tidak perlu diedit untuk mengubah tampilan dan perilaku Code Reader.
+1. Unggah dokumen PDF.
+2. Tunggu proses ekstraksi teks selesai.
+3. Pastikan isi dokumen berhasil ditampilkan.
+4. Periksa tampilan halaman PDF.
+5. Tentukan rentang halaman yang ingin dibacakan.
+6. Klik "Mulai membaca".
 
-## Dokumentasi resmi
+Contoh pengujian rentang halaman:
 
-- Netlify config: https://docs.netlify.com/build/configure-builds/file-based-configuration/
-- Netlify pricing: https://www.netlify.com/pricing/
-- Streamlit deploy: https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy
+```text
+Mulai halaman : 3
+Akhir halaman: 5
+```
 
-created by codematt
+Aplikasi seharusnya membaca teks dari halaman 3 sampai halaman 5 sesuai pengaturan.
+
+### C. Pengujian Dokumen Word
+
+1. Unggah dokumen berformat DOCX.
+2. Tunggu proses ekstraksi selesai.
+3. Pastikan paragraf dan isi dokumen berhasil ditampilkan.
+4. Pilih bahasa dan suara.
+5. Klik "Mulai membaca".
+
+Catatan:
+
+Nomor halaman Word tidak selalu sama dengan tampilan Microsoft Word karena format DOCX tidak menyimpan pembagian halaman secara tetap.
+
+Jika memerlukan kontrol halaman yang lebih akurat, ekspor dokumen Word menjadi PDF terlebih dahulu.
+
+### D. Pengujian Kontrol Pembacaan
+
+Periksa fungsi berikut:
+
+- Memulai pembacaan.
+- Menjeda pembacaan.
+- Melanjutkan pembacaan.
+- Menghentikan pembacaan.
+- Mengganti bahasa dan suara.
+- Mengatur rentang halaman.
+- Menghapus dokumen dari sesi.
+
+Pastikan aplikasi tidak melanjutkan pembacaan dokumen sebelumnya ketika pengguna memilih dokumen atau rentang halaman baru.
+
+### E. Pengujian Antarmuka
+
+Periksa tampilan aplikasi pada beberapa kondisi:
+
+- Mode terang.
+- Mode gelap.
+- Ukuran jendela browser kecil.
+- Tampilan browser layar penuh.
+- Tampilan melalui perangkat seluler jika tersedia.
+
+Pastikan tulisan, tombol, dan navigasi tetap terlihat serta mudah digunakan.
+
+## 6. Menghentikan Aplikasi
+
+Jika pengujian selesai:
+
+1. Kembali ke terminal VS Code.
+2. Tekan Ctrl + C.
+3. Tunggu hingga server berhenti.
+
+Setelah server dihentikan, aplikasi tidak lagi dapat diakses melalui alamat localhost tersebut sampai server dijalankan kembali.
+
+## 7. Pemecahan Masalah
+
+### Python tidak dikenali
+
+Coba jalankan:
+
+```bash
+py -m http.server 8000 --directory dist
+```
+
+Jika tetap gagal, periksa apakah Python sudah terpasang dengan benar.
+
+### Halaman tidak dapat dibuka
+
+Pastikan:
+
+- Terminal masih menjalankan server.
+- Alamat yang dibuka adalah http://localhost:8000.
+- Folder `dist` tersedia.
+- File `index.html` berada di dalam folder `dist`.
+
+### Port 8000 sudah digunakan
+
+Gunakan port alternatif:
+
+```bash
+python -m http.server 8080 --directory dist
+```
+
+Kemudian buka:
+
+http://localhost:8080
+
+### Tombol aplikasi tidak berfungsi
+
+Jangan menjalankan aplikasi dengan membuka file `index.html` langsung melalui Windows Explorer.
+
+Gunakan server lokal seperti yang dijelaskan pada langkah sebelumnya.
+
+### Dokumen PDF tidak terbaca
+
+Pastikan PDF berisi teks yang dapat diseleksi.
+
+PDF yang berasal dari hasil scan gambar mungkin tidak dapat diekstrak karena versi aplikasi ini belum mendukung OCR.
+
+### Suara tidak tersedia
+
+Periksa:
+
+- Pengaturan suara pada perangkat.
+- Bahasa yang dipilih.
+- Ketersediaan suara pada browser.
+
+Coba muat ulang halaman atau gunakan browser berbeda.
+
+Ketersediaan suara dapat berbeda pada setiap perangkat dan sistem operasi.
+
+---
+
+## Selesai
+
+Jika seluruh pengujian berhasil, Code Reader sudah dapat digunakan secara lokal melalui browser komputer.
+
+Setiap kali ingin menjalankan aplikasi kembali, cukup buka folder project di VS Code dan jalankan:
+
+```bash
+python -m http.server 8000 --directory dist
+```
+
+Kemudian akses:
+
+http://localhost:8000
+
+**Code Reader | Document Reading Made Simple**
